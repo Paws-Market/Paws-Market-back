@@ -2,7 +2,7 @@
 name: "\U0001F41E Bug Report"
 about: 버그 발생 시 작성하는 템플릿
 title: "[Bug] <버그 제목>"
-labels: ''
+labels: bug
 assignees: ''
 
 ---
