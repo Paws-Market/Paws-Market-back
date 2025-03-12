@@ -21,6 +21,6 @@ public class Role extends BaseEntity {
     private Long roleId;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "role_type")
+    @Column(name = "role_type", nullable = false)
     private Roletype roleType;
 }
