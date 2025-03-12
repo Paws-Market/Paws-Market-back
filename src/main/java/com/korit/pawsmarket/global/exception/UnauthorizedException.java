@@ -1,0 +1,7 @@
+package com.korit.pawsmarket.global.exception;
+
+public class UnauthorizedException extends RuntimeException {
+    public UnauthorizedException(String message) {
+        super(message);
+    }
+}
