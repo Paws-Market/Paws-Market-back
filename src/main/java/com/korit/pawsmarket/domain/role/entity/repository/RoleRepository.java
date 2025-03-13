@@ -1,4 +1,7 @@
 package com.korit.pawsmarket.domain.role.entity.repository;
 
-public interface RoleRepository {
-}
+import com.korit.pawsmarket.domain.role.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    }

@@ -21,6 +21,7 @@ public class JwtUtil {
     private final Key key;
     private final long accessTokenExpTime;
 
+    //JWT 서명(Signature)에 사용할 비밀키와 토큰의 만료 시간을 설정하는 생성자
     public JwtUtil(
             @Value("${spring.jwt.secret.key}") String secretKey,
             @Value("${spring.jwt.expiration_time}") long accessTokenExpTime
@@ -30,13 +31,13 @@ public class JwtUtil {
        this.accessTokenExpTime = accessTokenExpTime;
     }
 
-    //엑세스 토큰 생성 함수
+    //사용자 정보를 받아서 JWT를 생성하는 메서드
     public String generateAccessToken(JwtUserInfoDto jwtUserInfoDto) { return buildJwtToken(jwtUserInfoDto, accessTokenExpTime); }
 
     //jwt를 실제로 생성하는 함수 : 모든 종류의 JWT생성 로직을 담당하는 공통 함수
     public String buildJwtToken(JwtUserInfoDto jwtUserInfoDto, long expireTime) {
 
-        Claims claims = Jwts.claims();
+        Claims claims = Jwts.claims(); // JWT의 **Payload(데이터 부분)**을 생성.
         claims.put("userId", jwtUserInfoDto.userId());
         claims.put("roleType", jwtUserInfoDto.roleType());
         claims.put("authProvider", jwtUserInfoDto.authProvider());
@@ -49,11 +50,12 @@ public class JwtUtil {
                 .setIssuedAt(Date.from(now.toInstant()))
                 .setExpiration(Date.from(tokenValidity.toInstant()))
                 .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+                .compact(); // JWT를 최종적으로 생성해서 문자열로 반환.
 
     }
 
-    //주어진 JWT 토큰에서 userId 값을 추출하는 함수
+    //parseClaims(token)을 호출해서 JWT의 Payload(데이터 부분)을 가져옴.
+    //get("userId", Long.class) → JWT에서 userId 값을 Long 타입으로 가져옴.
     public Long getUserId(String token) {return parseClaims(token).get("userId", Long.class); }
 
     //주어진 JWT 토큰이 유효한지 검사하는 함수

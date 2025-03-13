@@ -24,11 +24,12 @@ public class JwtFilter  extends OncePerRequestFilter {
     private final TokenBlackListService tokenBlacklistService;
     private final JwtUtil jwtUtil;
 
+    // 요청이 들어올 때마다 실행되는 필터 역할 메서드, 클라이언트가  서버에 요청을 보낼때마다 실행
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String authorization = request.getHeader("Authorization");
+        String authorization = request.getHeader("Authorization");//요청 헤더에서 "Authorization" 값을 가져옴.
 
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String token = authorization.substring(7);
