@@ -3,11 +3,9 @@ package com.korit.pawsmarket.domain.user.entity;
 import com.korit.pawsmarket.domain.role.entity.Role;
 import com.korit.pawsmarket.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.korit.pawsmarket.domain.user.enums.AuthProvider;
+
 import java.time.LocalDate;
 
 @Getter
@@ -50,13 +48,16 @@ public class User extends BaseEntity {
     @Builder.Default
     private AuthProvider authProvider = AuthProvider.COMMON;
 
-    @Column(nullable = true)
+    @Column(unique = true, nullable = true)
     private String oauthId;
 
+    /**
+     * 프로필 이미지 기본값 설정 (AWS S3 기본 이미지)
+     */
     @PrePersist
     public void setDefaultProfileImg() {
-        if(this.profileImg == null || this.profileImg.isBlank()) {
-            this.profileImg = "/*aws 기본 이미지 주소*/";
+        if (this.profileImg == null || this.profileImg.isBlank()) {
+            this.profileImg = "https://aws.s3.com/default-profile.png"; // AWS 기본 이미지 URL
         }
     }
 }

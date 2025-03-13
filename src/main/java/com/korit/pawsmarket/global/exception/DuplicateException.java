@@ -6,3 +6,4 @@ public class DuplicateException extends CustomException {
         super(message);
     }
 }
+
