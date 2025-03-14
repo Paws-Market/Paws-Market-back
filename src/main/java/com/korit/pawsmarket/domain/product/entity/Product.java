@@ -28,35 +28,35 @@ public class Product extends BaseEntity {
     private Category category;
 
     @Column(name = "product_name")
-    private String productName;
+    private String productName;             // 상품명
 
-    private int price;
+    private int price;                      // 가격
 
     @Column(name = "image_url")
-    private String imageUrl;
+    private String imageUrl;                // 대표 이미지
 
-    private int stock;
+    private int stock;                      // 재고
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sale_status")
-    private SaleStatus saleStatus;
+    private SaleStatus saleStatus;          // 판매상태
 
     @Column(name = "description_image_url1")
-    private String descriptionImageUrl1;
+    private String descriptionImageUrl1;    // 상세설명 이미지1
 
     @Column(name = "description_image_url2")
-    private String descriptionImageUrl2;
+    private String descriptionImageUrl2;    // 상세설명 이미지2
 
     @Column(name = "description_image_url3")
-    private String descriptionImageUrl3;
+    private String descriptionImageUrl3;    // 상세설명 이미지3
 
     @Column(name = "sales_quantity")
-    private int salesQuantity;
+    private int salesQuantity;              // 판매 수량
 
     @Enumerated(EnumType.STRING)
     @Column(name = "pet_type")
-    private PetType petType;
+    private PetType petType;                // 펫 타입
 
     @Column(name = "discount_rate")
-    private int discountRate;
+    private int discountRate;               // 할인율
 }
