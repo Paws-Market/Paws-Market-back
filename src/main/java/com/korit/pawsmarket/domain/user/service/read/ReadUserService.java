@@ -2,6 +2,7 @@ package com.korit.pawsmarket.domain.user.service.read;
 
 import com.korit.pawsmarket.domain.role.entity.Role;
 import com.korit.pawsmarket.domain.role.entity.repository.RoleRepository;
+import com.korit.pawsmarket.domain.role.enums.Roletype;
 import com.korit.pawsmarket.domain.user.entity.User;
 import com.korit.pawsmarket.domain.user.entity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class ReadUserService {
         return userRepository.existsByNick(nick);
     }
 
-    public Optional<Role> findByRoleId(Long roleId){
-        return roleRepository.findById(roleId);
+    public Optional<Role> findByRoletype(Roletype roletype){
+        return roleRepository.findByRoleType(roletype);
     }
 
 

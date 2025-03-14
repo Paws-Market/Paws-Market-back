@@ -44,7 +44,7 @@ public record UserCreateReqDto(
 
         @Schema(example = "1") // 클라이언트가 Role의 ID만 보냄
         @NotNull(message = "권한 정보는 필수 입력입니다.")
-        Long roleId,
+        Roletype roletype,
 
         @Schema(example = "COMMON")
         @NotNull(message = "인증 방식은 필수 입력입니다.")
