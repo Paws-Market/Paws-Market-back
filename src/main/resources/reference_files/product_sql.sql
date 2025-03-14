@@ -1,0 +1,52 @@
+-- use pawsMarket;
+--
+-- select * from category;
+--
+-- -- 크롤링으로 가져온 데이터를 담을 테이블
+-- CREATE TABLE web_crawling_data (
+--     product_id INT AUTO_INCREMENT PRIMARY KEY,  -- 상품 id, 자동 증가
+--     category VARCHAR(100),                      -- 카테고리 (문자열)
+--     product_name VARCHAR(255),                  -- 상품명 (긴문자)
+--     price INT,          			            -- 가격 (숫자)
+--     image_url VARCHAR(255),                     -- 이미지 URL (긴문자)
+--     stock INT,                                  -- 재고 (숫자)
+--     sale_status ENUM('ON_SALE', 'OUT_OF_STOCK', 'DISCONTINUED'),  -- 판매상태 (이넘)
+--     description_image_url1 VARCHAR(255),        -- 상품 상세 설명 이미지 1 URL (긴문자)
+--     description_image_url2 VARCHAR(255),        -- 상품 상세 설명 이미지 2 URL (긴문자)
+--     description_image_url3 VARCHAR(255),        -- 상품 상세 설명 이미지 3 URL (긴문자)
+--     sales_quantity INT,                         -- 판매수량 (숫자)
+--     pet_type ENUM('DOG', 'CAT', 'COMMON'),      -- 펫타입 (이넘)
+--     discount_rate INT							-- 할인율 (숫자)
+-- );
+--
+-- select * from web_crawling_data;
+--
+--
+-- SET time_zone = '+09:00';
+--
+-- INSERT INTO product (
+--     category_id, product_name, price, image_url, stock,
+--     sale_status, description_image_url1, description_image_url2,
+--     description_image_url3, sales_quantity, pet_type, discount_rate,
+--     is_delete, created_at, updated_at
+-- )
+-- SELECT
+--     c.category_id,  -- 기존 category 값을 category_id로 변환
+--     p.product_name,
+--     p.price,
+--     p.image_url,
+--     p.stock,
+--     p.sale_status,
+--     p.description_image_url1,
+--     p.description_image_url2,
+--     p.description_image_url3,
+--     p.sales_quantity,
+--     p.pet_type,
+--     p.discount_rate,
+--     false AS is_delete,         -- 기본값은 false
+--     NOW() AS created_at,        -- 현재 시간
+--     NOW() AS updated_at         -- 현재 시간
+-- FROM web_crawling_data p
+-- JOIN category c ON p.category = c.category_type;  -- category 값을 기준으로 매칭
+--
+-- select * from product;
