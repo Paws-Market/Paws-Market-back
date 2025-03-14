@@ -1,5 +1,6 @@
 package com.korit.pawsmarket.domain.product.service;
 
+import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.product.entity.Product;
 import com.korit.pawsmarket.domain.product.entity.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,5 +16,9 @@ public class ReadProductService {
 
     public Page<Product> findAllQuery(Pageable pageable) {
         return productRepository.findAllQuery(pageable);
+    }
+
+    public Page<Product> findAllByCategoryQuery(Pageable pageable, CategoryType categoryType) {
+        return productRepository.findAllByCategoryQuery(pageable, categoryType);
     }
 }

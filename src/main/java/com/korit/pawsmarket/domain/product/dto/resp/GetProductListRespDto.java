@@ -7,6 +7,7 @@ import lombok.Builder;
 @Builder
 public record GetProductListRespDto(
         Long productId,
+        Long categoryId,
         String imageUrl,
         String productName,
         int price,
@@ -18,6 +19,7 @@ public record GetProductListRespDto(
     public static GetProductListRespDto from(Product product) {
         return GetProductListRespDto.builder()
                 .productId(product.getProductId())
+                .categoryId(product.getCategory().getCategoryId())
                 .imageUrl(product.getImageUrl())
                 .productName(product.getProductName())
                 .price(product.getPrice())

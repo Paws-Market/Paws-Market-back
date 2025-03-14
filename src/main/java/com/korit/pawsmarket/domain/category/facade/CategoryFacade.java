@@ -32,6 +32,7 @@ public class CategoryFacade {
         createCategoryService.createCategory(category);
     }
 
+    @Transactional(readOnly = true)
     public List<GetCategoryRespDto> getCategoryList() {
         return readCategoryService.findAll().stream().map(GetCategoryRespDto::from).toList();
     }
