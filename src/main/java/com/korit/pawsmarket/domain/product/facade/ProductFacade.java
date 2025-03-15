@@ -2,7 +2,9 @@ package com.korit.pawsmarket.domain.product.facade;
 
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.category.service.ReadCategoryService;
+import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
+import com.korit.pawsmarket.domain.product.entity.Product;
 import com.korit.pawsmarket.domain.product.service.ReadProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +39,10 @@ public class ProductFacade {
         }
 
         return readProductService.findAllByCategoryQuery(pageable, categoryType).map(GetProductListRespDto::from);
+    }
+
+    public GetProductDetailRespDto getProductDetail(Long productId) {
+        Product product = readProductService.findById(productId);
+        return GetProductDetailRespDto.from(product);
     }
 }

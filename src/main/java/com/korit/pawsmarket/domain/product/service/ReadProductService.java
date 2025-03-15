@@ -3,6 +3,7 @@ package com.korit.pawsmarket.domain.product.service;
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.product.entity.Product;
 import com.korit.pawsmarket.domain.product.entity.repository.ProductRepository;
+import com.korit.pawsmarket.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,10 @@ public class ReadProductService {
 
     public Page<Product> findAllByCategoryQuery(Pageable pageable, CategoryType categoryType) {
         return productRepository.findAllByCategoryQuery(pageable, categoryType);
+    }
+
+    public Product findById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("해당 상품을 찾을 수 없습니다."));
     }
 }
