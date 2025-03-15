@@ -23,8 +23,8 @@ public class ReadProductService {
         return productRepository.findAllByCategoryQuery(pageable, categoryType);
     }
 
-    public Product findById(Long productId) {
-        return productRepository.findById(productId)
+    public Product findByIdQuery(Long productId) {
+        return productRepository.findByIdQuery(productId)
                 .orElseThrow(() -> new NotFoundException("해당 상품을 찾을 수 없습니다."));
     }
 }

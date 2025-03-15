@@ -43,7 +43,9 @@ public class ProductController {
 
     @Operation(summary = "상품 상세 조회", description = "상품 ID를 입력하면 해당 상품의 상세 정보를 조회합니다.")
     @GetMapping("/{productId}")
-    public ResponseEntity<ApiResponse<GetProductDetailRespDto>> getProductDetail(@PathVariable(name = "productId") Long productId) {
+    public ResponseEntity<ApiResponse<GetProductDetailRespDto>> getProductDetail(
+            @PathVariable(name = "productId") Long productId
+    ) {
         return ApiResponse.generateResp(Status.SUCCESS, null, productFacade.getProductDetail(productId));
     }
 }

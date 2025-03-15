@@ -41,8 +41,9 @@ public class ProductFacade {
         return readProductService.findAllByCategoryQuery(pageable, categoryType).map(GetProductListRespDto::from);
     }
 
+    @Transactional(readOnly = true)
     public GetProductDetailRespDto getProductDetail(Long productId) {
-        Product product = readProductService.findById(productId);
+        Product product = readProductService.findByIdQuery(productId);
         return GetProductDetailRespDto.from(product);
     }
 }
