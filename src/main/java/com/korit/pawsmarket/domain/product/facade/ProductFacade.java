@@ -1,10 +1,13 @@
 package com.korit.pawsmarket.domain.product.facade;
 
+import com.korit.pawsmarket.domain.category.entity.Category;
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.category.service.ReadCategoryService;
+import com.korit.pawsmarket.domain.product.dto.req.CreateProductReqDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
 import com.korit.pawsmarket.domain.product.entity.Product;
+import com.korit.pawsmarket.domain.product.service.CreateProductService;
 import com.korit.pawsmarket.domain.product.service.ReadProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,8 @@ import java.util.List;
 public class ProductFacade {
 
     private final ReadProductService readProductService;
+    private final ReadCategoryService readCategoryService;
+    private final CreateProductService createProductService;
 
     @Transactional(readOnly = true)
     public Page<GetProductListRespDto> getProductList(
@@ -45,5 +50,11 @@ public class ProductFacade {
     public GetProductDetailRespDto getProductDetail(Long productId) {
         Product product = readProductService.findByIdQuery(productId);
         return GetProductDetailRespDto.from(product);
+    }
+
+    public void createProduct(CreateProductReqDto reqDto) {
+        Category category = readCategoryService.findById(reqDto.categoryId());
+        Product product = reqDto.of(category);
+        createProductService.save(product);
     }
 }
