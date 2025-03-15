@@ -1,6 +1,7 @@
 package com.korit.pawsmarket.domain.user.facade;
 
 import com.korit.pawsmarket.domain.role.entity.Role;
+import com.korit.pawsmarket.domain.tokenBlacklist.service.TokenBlackListService;
 import com.korit.pawsmarket.domain.user.entity.User;
 import com.korit.pawsmarket.domain.user.enums.AuthProvider;
 import com.korit.pawsmarket.domain.user.service.create.CreateUserService;
@@ -10,6 +11,9 @@ import com.korit.pawsmarket.global.exception.CustomException;
 import com.korit.pawsmarket.global.exception.DuplicateException;
 import com.korit.pawsmarket.global.exception.UnauthorizedException;
 import com.korit.pawsmarket.global.jwt.util.JwtUtil;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.korit.pawsmarket.web.api.user.req.LoginUserReqDto;
 import com.korit.pawsmarket.web.api.user.req.UserCreateReqDto;
@@ -17,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Slf4j
 @Component
@@ -28,6 +35,7 @@ public class UserFacade {
     private final PasswordEncoder passwordEncoder;
     private final CreateUserService createUserService;
     private final JwtUtil jwtUtil;
+    private final TokenBlackListService tokenBlackListService;
 
 
     public void createUser(UserCreateReqDto req) {
@@ -88,5 +96,33 @@ public class UserFacade {
         //4. jwt 토큰 생성
         JwtUserInfoDto jwtUserInfoDto = JwtUserInfoDto.of(user);
         return jwtUtil.generateAccessToken(jwtUserInfoDto);
+    }
+
+    public void logout(Authentication authentication, HttpServletRequest request) {
+        if (authentication == null) {
+            throw new UnauthorizedException("인증 실패 : authentication is Null");
+        }
+
+        if (request.getHeader("Authorization") == null ||
+            !request.getHeader("Authorization").startsWith("Bearer ")) {
+            throw new UnauthorizedException("인증 실패 : Authorizaion 헤더가 없거나 형식이 올바르지 않습니다.");
+        }
+
+        String name = authentication.getName();
+        log.info("로그아웃 요청한 사용자 :  {}", name);
+
+        String token = request.getHeader("Authorization").substring(7);
+        log.info("token : {}", token);
+
+        Claims claims = jwtUtil.parseClaims(token);
+
+        LocalDateTime expTime = claims.getExpiration()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        log.info("expTime : {}", expTime);
+
+        tokenBlackListService.createTokenBlacklist(token, expTime);
+        request.getSession().removeAttribute("cart");
     }
 }

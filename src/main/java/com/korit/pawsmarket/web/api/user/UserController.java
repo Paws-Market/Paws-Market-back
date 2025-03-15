@@ -6,12 +6,15 @@ import com.korit.pawsmarket.global.response.enums.Status;
 import com.korit.pawsmarket.web.api.user.req.LoginUserReqDto;
 import com.korit.pawsmarket.web.api.user.req.UserCreateReqDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +44,14 @@ public class UserController {
             return ApiResponse.generateResp(Status.FORBIDDEN, "로그인 실패: 토큰이 생성되지 않았습니다.", null);
         }
         return ApiResponse.generateResp(Status.CREATE, "로그인 성공", token);
+    }
+    @Operation(summary = "로그아웃", security = @SecurityRequirement(name = "bearerAuth"))
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logoutUser(
+            Authentication authentication, HttpServletRequest request
+    ){
+        userFacade.logout(authentication, request);
+        return ApiResponse.generateResp(Status.SUCCESS, "로그아웃 되었습니다.", null);
     }
 
 
