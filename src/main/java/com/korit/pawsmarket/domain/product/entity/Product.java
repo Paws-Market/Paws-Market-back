@@ -32,7 +32,8 @@ public class Product extends BaseEntity {
 
     private int price;                      // 가격
 
-    @Column(name = "image_url")
+    // 이미지 문자열 길이가 길어서 늘려줌
+    @Column(length = 1000, name = "image_url")
     private String imageUrl;                // 대표 이미지
 
     private int stock;                      // 재고
@@ -41,13 +42,13 @@ public class Product extends BaseEntity {
     @Column(name = "sale_status")
     private SaleStatus saleStatus;          // 판매상태
 
-    @Column(name = "description_image_url1")
+    @Column(length = 1000, name = "description_image_url1")
     private String descriptionImageUrl1;    // 상세설명 이미지1
 
-    @Column(name = "description_image_url2")
+    @Column(length = 1000, name = "description_image_url2")
     private String descriptionImageUrl2;    // 상세설명 이미지2
 
-    @Column(name = "description_image_url3")
+    @Column(length = 1000, name = "description_image_url3")
     private String descriptionImageUrl3;    // 상세설명 이미지3
 
     @Column(name = "sales_quantity")
