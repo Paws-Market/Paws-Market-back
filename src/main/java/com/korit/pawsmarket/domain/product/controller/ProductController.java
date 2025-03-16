@@ -1,6 +1,7 @@
 package com.korit.pawsmarket.domain.product.controller;
 
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
+import com.korit.pawsmarket.domain.product.dto.req.CreateProductReqDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
 import com.korit.pawsmarket.domain.product.facade.ProductFacade;
@@ -8,6 +9,7 @@ import com.korit.pawsmarket.global.response.ApiResponse;
 import com.korit.pawsmarket.global.response.enums.Status;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,13 @@ import java.util.List;
 public class ProductController {
 
     private final ProductFacade productFacade;
+
+    @Operation(summary = "상품 추가 생성", description = "새로운 상품을 등록하는 기능입니다.")
+    @PostMapping
+    public ResponseEntity<ApiResponse<Void>> createProduct(@Valid @RequestBody CreateProductReqDto reqDto) {
+        productFacade.createProduct(reqDto);
+        return ApiResponse.generateResp(Status.CREATE, "새로운 상품 등록되었습니다.", null);
+    }
 
     @Operation(summary = "상품 목록 조회", description = "상품 목록을 조회합니다.(페이징)(전체 목록 조회 / 카테고리별 조회 가능)")
     @GetMapping
