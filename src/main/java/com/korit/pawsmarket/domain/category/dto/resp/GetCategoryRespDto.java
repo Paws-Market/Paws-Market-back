@@ -7,13 +7,15 @@ import lombok.Builder;
 @Builder
 public record GetCategoryRespDto(
         Long categoryId,
-        CategoryType categoryType
+        CategoryType categoryType,
+        String categoryName
 ) {
 
     public static GetCategoryRespDto from(Category category) {
         return GetCategoryRespDto.builder()
                 .categoryId(category.getCategoryId())
                 .categoryType(category.getCategoryType())
+                .categoryName(category.getCategoryName())
                 .build();
     }
 }
