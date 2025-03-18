@@ -4,6 +4,7 @@ import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.product.dto.req.CreateProductReqDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
+import com.korit.pawsmarket.domain.product.enums.PetType;
 import com.korit.pawsmarket.domain.product.facade.ProductFacade;
 import com.korit.pawsmarket.global.response.ApiResponse;
 import com.korit.pawsmarket.global.response.enums.Status;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,14 +42,15 @@ public class ProductController {
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             @RequestParam(name = "sortBy", defaultValue = "salesQuantity") String sortBy,
             @RequestParam(name = "direction", defaultValue = "desc") String direction,
-            @RequestParam(name = "categoryType", required = false) CategoryType categoryType
+            @RequestParam(name = "categoryType", required = false) CategoryType categoryType,
+            @RequestParam(name = "petType", required = false) PetType petType,
+            @RequestParam(name = "search", required = false) String search
     ) {
+        Page<GetProductListRespDto> productList = productFacade
+                .getProductList(pageNo, pageSize, sortBy, direction, categoryType, petType, search);
+        String totalPages = String.valueOf(productList.getTotalPages());
 
-        return ApiResponse.generateResp(
-                Status.SUCCESS, null, productFacade
-                        .getProductList(pageNo, pageSize, sortBy, direction, categoryType)
-                        .getContent()
-        );
+        return ApiResponse.generateResp(Status.SUCCESS, totalPages, productList.getContent());
     }
 
     @Operation(summary = "상품 상세 조회", description = "상품 ID를 입력하면 해당 상품의 상세 정보를 조회합니다.")
