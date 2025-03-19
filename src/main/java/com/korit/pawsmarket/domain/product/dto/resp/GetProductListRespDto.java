@@ -1,6 +1,7 @@
 package com.korit.pawsmarket.domain.product.dto.resp;
 
 import com.korit.pawsmarket.domain.product.entity.Product;
+import com.korit.pawsmarket.domain.product.enums.PetType;
 import com.korit.pawsmarket.domain.product.enums.SaleStatus;
 import lombok.Builder;
 
@@ -8,6 +9,7 @@ import lombok.Builder;
 public record GetProductListRespDto(
         Long productId,
         Long categoryId,
+        PetType petType,
         String imageUrl,
         String productName,
         int price,
@@ -20,6 +22,7 @@ public record GetProductListRespDto(
         return GetProductListRespDto.builder()
                 .productId(product.getProductId())
                 .categoryId(product.getCategory().getCategoryId())
+                .petType(product.getPetType())
                 .imageUrl(product.getImageUrl())
                 .productName(product.getProductName())
                 .price(product.getPrice())
