@@ -60,4 +60,12 @@ public class Product extends BaseEntity {
 
     @Column(name = "discount_rate")
     private int discountRate;               // 할인율
+
+    public void updateSaleStatus(SaleStatus saleStatus) {
+        this.saleStatus = saleStatus;
+    }
+
+    public void updateStock(int quantity) {
+        this.stock = quantity;
+    }
 }
