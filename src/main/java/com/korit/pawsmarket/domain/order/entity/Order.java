@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order")
+@Table(name = "orders")
 public class Order extends BaseEntity {
 
     @Id
@@ -36,17 +36,16 @@ public class Order extends BaseEntity {
     @Column(name = "order_status")
     private OrderStatus orderStatus; //주문 상태(결제 완료, 배송 중 등)
 
+    @Column(name = "shipping_address", nullable = false)
+    private String shippingAddress; // 배송지 기본값: User.address
+
+    @Column(name = "receiver_name", nullable = false)
+    private String receiverName; // 수령인 기본값: User.nick
+
+    @Column(name = "receiver_phone", nullable = false)
+    private String receiverPhone;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails; // 주문 상세 목록
-
-    //주문 생성 시 기본 값을 PAYMENT_PENDING으로 설정
-    @PrePersist
-    public void prePersist() {
-        this.orderStatus = OrderStatus.PAYMENT_PENDING;
-    }
-
-    public void updateStatus(OrderStatus newStatus) {
-        this.orderStatus = newStatus;
-    }
 
 }

@@ -36,6 +36,9 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private LocalDate birth;
 
+    @Column(nullable = false)
+    private String phone;
+
     @Column(nullable = true)
     private String profileImg;
 

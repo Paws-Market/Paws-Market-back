@@ -23,9 +23,9 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "order_detail_id")
     private Long orderDetailId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( name = "order_id", nullable = false)
-    private Order order;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order; //주문 정보
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
@@ -38,7 +38,8 @@ public class OrderDetail extends BaseEntity {
     private int price; //원가 (상품 가격)
 
     @Column( name = "discount_rate", nullable = false)
-    private int discountRate; // 할인율 (주문 당시 할인율을 저장)
+    @Builder.Default
+    private int discountRate = 0; // 할인율 (주문 당시 할인율을 저장)
 
     @Column(name = "final_price", nullable = false)
     private int finalPrice; //할인 갸격 (price - (price * discountRate / 100))
@@ -49,9 +50,5 @@ public class OrderDetail extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "shipping_status", nullable = false)
     private ShippingStatus shippingStatus; // 배송 상태(준비중, 배송중, 배송완료)
-/*
-    @Column(name = "is_refundable", nullable = false)
-    private boolean isRefundable; //환불 여부
-*/
 
 }

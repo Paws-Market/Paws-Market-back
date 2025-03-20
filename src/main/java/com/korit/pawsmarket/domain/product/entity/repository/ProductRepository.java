@@ -25,6 +25,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.isDelete = false AND p.productId = :productId")
     Optional<Product> findByIdQuery(@Param("productId") Long productId);
 
+    @Query("SELECT p FROM Product p WHERE p.productId IN :productIds")
+    List<Product> findByProductIds(@Param("productIds") List<Long> productIds);
+
     @Query("SELECT p FROM Product p WHERE p.isDelete = false AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :search, '%')) AND p.petType IN :petTypes")
     // lower를 이용하여 대소문자 구분없이 검색이 가능하도록 함
     Page<Product> findAllBySearchQuery(Pageable pageable, @Param("search") String search, @Param("petTypes") List<PetType> petTypes);
