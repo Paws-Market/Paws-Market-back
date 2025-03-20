@@ -5,6 +5,7 @@ import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.category.service.ReadCategoryService;
 import com.korit.pawsmarket.domain.product.dto.req.CreateProductReqDto;
 import com.korit.pawsmarket.domain.product.dto.req.UpdateProductReqDto;
+import com.korit.pawsmarket.domain.product.dto.resp.GetLowStockProductRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
 import com.korit.pawsmarket.domain.product.entity.Product;
@@ -146,5 +147,14 @@ public class ProductFacade {
 
         product.updateProduct(reqDto, category);
         createProductService.save(product);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<GetLowStockProductRespDto> getLowStockProducts(
+            int pageNo, int pageSize, String sortBy, String direction, int threshold
+    ) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.fromString(direction), sortBy));
+
+        return readProductService.findAllByThreshold(pageable, threshold).map(GetLowStockProductRespDto::from);
     }
 }

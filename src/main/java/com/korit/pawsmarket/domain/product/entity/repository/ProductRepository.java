@@ -32,4 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.isDelete = false AND p.category.categoryType = :categoryType " +
             "AND LOWER(p.productName) LIKE LOWER(CONCAT('%', :search, '%')) AND p.petType IN :petTypes")
     Page<Product> findAllByCategoryAndSearchQuery(Pageable pageable, @Param("categoryType") CategoryType categoryType, @Param("search") String search, @Param("petTypes") List<PetType> petTypes);
+
+    @Query("SELECT p FROM Product p WHERE p.isDelete = false AND p.stock <= :threshold")
+    Page<Product> findAllByThreshold(Pageable pageable, @Param("threshold") int threshold);
 }

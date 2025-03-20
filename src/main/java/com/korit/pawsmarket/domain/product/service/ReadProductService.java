@@ -1,6 +1,7 @@
 package com.korit.pawsmarket.domain.product.service;
 
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
+import com.korit.pawsmarket.domain.product.dto.resp.GetLowStockProductRespDto;
 import com.korit.pawsmarket.domain.product.entity.Product;
 import com.korit.pawsmarket.domain.product.entity.repository.ProductRepository;
 import com.korit.pawsmarket.domain.product.enums.PetType;
@@ -38,5 +39,9 @@ public class ReadProductService {
 
     public Page<Product> findAllByCategoryAndSearchQuery(Pageable pageable, CategoryType categoryType, String search, List<PetType> petTypes) {
         return productRepository.findAllByCategoryAndSearchQuery(pageable, categoryType, search, petTypes);
+    }
+
+    public Page<Product> findAllByThreshold(Pageable pageable, int threshold) {
+        return productRepository.findAllByThreshold(pageable, threshold);
     }
 }
