@@ -1,6 +1,7 @@
 package com.korit.pawsmarket.domain.product.entity;
 
 import com.korit.pawsmarket.domain.category.entity.Category;
+import com.korit.pawsmarket.domain.product.dto.req.UpdateProductReqDto;
 import com.korit.pawsmarket.domain.product.enums.PetType;
 import com.korit.pawsmarket.domain.product.enums.SaleStatus;
 import com.korit.pawsmarket.global.entity.BaseEntity;
@@ -67,5 +68,18 @@ public class Product extends BaseEntity {
 
     public void updateStock(int quantity) {
         this.stock = quantity;
+    }
+
+    public void updateProduct(UpdateProductReqDto reqDto, Category category) {
+        this.category = category;
+        this.productName = reqDto.productName();
+        this.price = reqDto.price();
+        this.imageUrl = reqDto.imageUrl();
+        this.saleStatus = reqDto.saleStatus();
+        this.descriptionImageUrl1 = reqDto.descriptionImageUrl1();
+        this.descriptionImageUrl2 = reqDto.descriptionImageUrl2();
+        this.descriptionImageUrl3 = reqDto.descriptionImageUrl3();
+        this.petType = reqDto.petType();
+        this.discountRate = reqDto.discountRate();
     }
 }

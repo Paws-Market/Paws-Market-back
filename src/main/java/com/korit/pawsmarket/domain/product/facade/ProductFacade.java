@@ -4,6 +4,7 @@ import com.korit.pawsmarket.domain.category.entity.Category;
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.category.service.ReadCategoryService;
 import com.korit.pawsmarket.domain.product.dto.req.CreateProductReqDto;
+import com.korit.pawsmarket.domain.product.dto.req.UpdateProductReqDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
 import com.korit.pawsmarket.domain.product.entity.Product;
@@ -11,6 +12,7 @@ import com.korit.pawsmarket.domain.product.enums.PetType;
 import com.korit.pawsmarket.domain.product.enums.SaleStatus;
 import com.korit.pawsmarket.domain.product.service.CreateProductService;
 import com.korit.pawsmarket.domain.product.service.ReadProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -135,6 +137,14 @@ public class ProductFacade {
 
         // 판매 상태 점검
         checkSaleStatus(productId);
+        createProductService.save(product);
+    }
+
+    public void updateProduct(Long productId, UpdateProductReqDto reqDto) {
+        Product product = readProductService.findByIdQuery(productId);
+        Category category = readCategoryService.findById(reqDto.categoryId());
+
+        product.updateProduct(reqDto, category);
         createProductService.save(product);
     }
 }

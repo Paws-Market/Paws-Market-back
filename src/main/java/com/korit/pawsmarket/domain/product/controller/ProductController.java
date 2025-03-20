@@ -2,6 +2,7 @@ package com.korit.pawsmarket.domain.product.controller;
 
 import com.korit.pawsmarket.domain.category.enums.CategoryType;
 import com.korit.pawsmarket.domain.product.dto.req.CreateProductReqDto;
+import com.korit.pawsmarket.domain.product.dto.req.UpdateProductReqDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductDetailRespDto;
 import com.korit.pawsmarket.domain.product.dto.resp.GetProductListRespDto;
 import com.korit.pawsmarket.domain.product.enums.PetType;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.sql.Update;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,5 +71,18 @@ public class ProductController {
     ) {
         productFacade.scheduleStockArrival(productId, quantity);
         return ApiResponse.generateResp(Status.CREATE, "상품 입고 주문이 완료되었습니다.", null);
+    }
+
+    @Operation(summary = "상품 정보 수정", description = "상품 정보를 수정합니다. 상품명, 가격, 카테고리, 펫 타입, 할인율, 판매 상태, 설명, 이미지를 수정할 수 있습니다.")
+    @PutMapping("/{productId}")
+    public ResponseEntity<ApiResponse<Void>> updateProduct(
+            @PathVariable(name = "productId") Long productId,
+            @Valid @RequestBody UpdateProductReqDto reqDto
+            ) {
+        log.info("*** productId : {} ***", productId);
+        log.info("*** reqDto : {} ***", reqDto);
+        productFacade.updateProduct(productId, reqDto);
+
+        return ApiResponse.generateResp(Status.UPDATE, "상품 정보가 성공적으로 업데이트되었습니다.", null);
     }
 }
