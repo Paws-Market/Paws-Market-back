@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,4 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.isDelete = false AND p.productId = :productId")
     Optional<Product> findByIdQuery(@Param("productId") Long productId);
+
+    @Query("SELECT p FROM Product p WHERE p.productId IN :productIds")
+    List<Product> findByProductIds(@Param("productIds") List<Long> productIds);
 }

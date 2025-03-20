@@ -35,6 +35,10 @@ public record UserCreateReqDto(
         @NotBlank(message = "주소는 필수 입력입니다.")
         String address,
 
+        @Schema(example = "010-1234-5678")
+        @NotBlank(message = "전화번호는 필수 입력입니다.")
+        String phone,
+
         @Schema(example = "1997-03-29")
         @NotNull(message = "생년월일은 필수 입력입니다.")
         LocalDate birth,
@@ -56,6 +60,7 @@ public record UserCreateReqDto(
                      .password(dto.authProvider == AuthProvider.COMMON ? encodedPassword : null) //Oauth 회원은 비번 없음
                      .nick(dto.nick)
                      .address(dto.address)
+                     .phone(dto.phone)
                      .birth(dto.birth)
                      .profileImg(dto.profileImg)
                      .role(role)

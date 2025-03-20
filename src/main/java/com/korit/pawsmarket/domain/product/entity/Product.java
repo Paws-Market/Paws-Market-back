@@ -60,4 +60,14 @@ public class Product extends BaseEntity {
 
     @Column(name = "discount_rate")
     private int discountRate;               // 할인율
+
+    public void decreaseStock(int quantity) {
+        if(this.stock < quantity) {
+            throw new IllegalArgumentException("재고 부족: 현재 재고 " + this.stock + ", 요청 수량 " + quantity);
+        }
+        this.stock -= quantity; // 재고 감소
+        this.salesQuantity += quantity; // 판매 수량 증가
+    }
+
 }
+
