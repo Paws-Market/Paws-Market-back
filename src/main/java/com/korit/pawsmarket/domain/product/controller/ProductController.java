@@ -60,4 +60,14 @@ public class ProductController {
     ) {
         return ApiResponse.generateResp(Status.SUCCESS, null, productFacade.getProductDetail(productId));
     }
+
+    @Operation(summary = "상품 입고 주문", description = "상품 입고 주문을 하면 일정 시간 이후에 재고가 입고됩니다.")
+    @PostMapping("/{productId}/stock")
+    public ResponseEntity<ApiResponse<Void>> scheduleStockArrival(
+            @PathVariable(name = "productId") Long productId,
+            @RequestParam(name = "quantity") int quantity
+    ) {
+        productFacade.scheduleStockArrival(productId, quantity);
+        return ApiResponse.generateResp(Status.CREATE, "상품 입고 주문이 완료되었습니다.", null);
+    }
 }
