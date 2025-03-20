@@ -6,29 +6,21 @@ import com.korit.pawsmarket.domain.product.enums.SaleStatus;
 import lombok.Builder;
 
 @Builder
-public record GetProductListRespDto(
+public record GetLowStockProductRespDto(
         Long productId,
-        Long categoryId,
-        PetType petType,
         String imageUrl,
         String productName,
-        int price,
-        int discountRate,
         SaleStatus saleStatus,
-        int salesQuantity
+        int stock
 ) {
 
-    public static GetProductListRespDto from(Product product) {
-        return GetProductListRespDto.builder()
+    public static GetLowStockProductRespDto from(Product product) {
+        return GetLowStockProductRespDto.builder()
                 .productId(product.getProductId())
-                .categoryId(product.getCategory().getCategoryId())
-                .petType(product.getPetType())
                 .imageUrl(product.getImageUrl())
                 .productName(product.getProductName())
-                .price(product.getPrice())
-                .discountRate(product.getDiscountRate())
                 .saleStatus(product.getSaleStatus())
-                .salesQuantity(product.getSalesQuantity())
+                .stock(product.getStock())
                 .build();
     }
 }
