@@ -1,9 +1,11 @@
 package com.korit.pawsmarket.domain.order.facade;
 
-import com.korit.pawsmarket.domain.OrderDetail.dto.req.CreateOrderDetailReqDto;
-import com.korit.pawsmarket.domain.OrderDetail.dto.resp.CreateOrderDetailRespDto;
-import com.korit.pawsmarket.domain.OrderDetail.entity.OrderDetail;
-import com.korit.pawsmarket.domain.OrderDetail.facde.OrderDetailFacade;
+import com.korit.pawsmarket.domain.order.dto.resp.GetOrderListRespDto;
+import com.korit.pawsmarket.domain.order.entity.repository.OrderRepository;
+import com.korit.pawsmarket.domain.order.service.ReadOrderService;
+import com.korit.pawsmarket.domain.orderDetail.dto.resp.OrderDetailRespDto;
+import com.korit.pawsmarket.domain.orderDetail.entity.OrderDetail;
+import com.korit.pawsmarket.domain.orderDetail.facde.OrderDetailFacade;
 import com.korit.pawsmarket.domain.order.dto.req.CreateOrderReqDto;
 import com.korit.pawsmarket.domain.order.entity.Order;
 import com.korit.pawsmarket.domain.order.service.CreateOrderService;
@@ -12,12 +14,19 @@ import com.korit.pawsmarket.domain.product.entity.repository.ProductRepository;
 import com.korit.pawsmarket.domain.user.entity.User;
 import com.korit.pawsmarket.domain.user.entity.repository.UserRepository;
 import com.korit.pawsmarket.global.exception.NotFoundException;
+import com.korit.pawsmarket.global.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.security.SecurityUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
@@ -29,6 +38,8 @@ public class OrderFacade {
     private final ProductRepository productRepository;
     private final CreateOrderService createOrderService;
     private final OrderDetailFacade orderDetailFacade;
+    private final ReadOrderService readOrderService;
+    private final OrderRepository orderRepository;
 
     public Order createOrder(CreateOrderReqDto req) {
 
@@ -50,7 +61,7 @@ public class OrderFacade {
         }
 
         //4. 주문 상세 리스트 생성
-        List<CreateOrderDetailRespDto> orderDetails = req.orderDetails().stream()
+        List<OrderDetailRespDto> orderDetails = req.orderDetails().stream()
                 .map(createOrderDetailReqDto -> {
                     Product product = products.stream()
                             .filter(p -> p.getProductId().equals(createOrderDetailReqDto.productId()))
@@ -59,7 +70,7 @@ public class OrderFacade {
 
                     OrderDetail orderDetail = orderDetailFacade.createOrderDetail(order, product, createOrderDetailReqDto.quantity());
 
-                    return CreateOrderDetailRespDto.from(orderDetail);
+                    return OrderDetailRespDto.from(orderDetail);
                 })
                 .toList();
 
@@ -68,7 +79,23 @@ public class OrderFacade {
 
         //7.주문 상세 저장
         return order;
-
     }
 
+    @Transactional(readOnly = true)
+    public List<GetOrderListRespDto> getOrderList(
+            int pageNo, int pageSize, String sortBy, String direction
+    ) {
+        Pageable pageable = PageRequest.of(
+                pageNo,
+                pageSize,
+                Sort.by(Sort.Direction.fromString(direction), sortBy)
+        );
+        // 현재 사용자의 주문 목록 조회
+        Page<Order> orderPage = readOrderService.findAllOrders(pageable);
+
+        // Page → List 변환 후 반환
+        return orderPage.stream()
+                .map(GetOrderListRespDto::from)
+                .collect(Collectors.toList());
+    }
 }

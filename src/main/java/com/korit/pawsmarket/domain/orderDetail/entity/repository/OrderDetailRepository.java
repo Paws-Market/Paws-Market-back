@@ -1,6 +1,6 @@
-package com.korit.pawsmarket.domain.OrderDetail.entity.repository;
+package com.korit.pawsmarket.domain.orderDetail.entity.repository;
 
-import com.korit.pawsmarket.domain.OrderDetail.entity.OrderDetail;
+import com.korit.pawsmarket.domain.orderDetail.entity.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

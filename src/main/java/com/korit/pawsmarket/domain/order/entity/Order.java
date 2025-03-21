@@ -1,6 +1,6 @@
 package com.korit.pawsmarket.domain.order.entity;
 
-import com.korit.pawsmarket.domain.OrderDetail.entity.OrderDetail;
+import com.korit.pawsmarket.domain.orderDetail.entity.OrderDetail;
 import com.korit.pawsmarket.domain.order.enums.OrderStatus;
 import com.korit.pawsmarket.domain.user.entity.User;
 import com.korit.pawsmarket.global.entity.BaseEntity;
