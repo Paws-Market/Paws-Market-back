@@ -1,4 +1,4 @@
-package com.korit.pawsmarket.domain.OrderDetail.enums;
+package com.korit.pawsmarket.domain.orderDetail.enums;
 
 public enum ShippingStatus {
     READY, //배송 준비 중 (결제 대기)

@@ -1,6 +1,6 @@
 package com.korit.pawsmarket.domain.order.dto.req;
 
-import com.korit.pawsmarket.domain.OrderDetail.dto.req.CreateOrderDetailReqDto;
+import com.korit.pawsmarket.domain.orderDetail.dto.req.CreateOrderDetailReqDto;
 import com.korit.pawsmarket.domain.order.entity.Order;
 import com.korit.pawsmarket.domain.order.enums.OrderStatus;
 import com.korit.pawsmarket.domain.user.entity.User;

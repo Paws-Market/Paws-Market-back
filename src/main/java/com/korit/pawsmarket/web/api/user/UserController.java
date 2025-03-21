@@ -37,6 +37,7 @@ public class UserController {
 
         return ApiResponse.generateResp(Status.CREATE, "회원가입이 완료되었습니다.", null);
     }
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<String>> loginUser(@Valid @RequestBody LoginUserReqDto req) {
         String token = userFacade.login(req);
