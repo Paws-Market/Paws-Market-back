@@ -1,8 +1,8 @@
-package com.korit.pawsmarket.domain.OrderDetail.facde;
+package com.korit.pawsmarket.domain.orderDetail.facde;
 
-import com.korit.pawsmarket.domain.OrderDetail.entity.OrderDetail;
-import com.korit.pawsmarket.domain.OrderDetail.entity.repository.OrderDetailRepository;
-import com.korit.pawsmarket.domain.OrderDetail.enums.ShippingStatus;
+import com.korit.pawsmarket.domain.orderDetail.entity.OrderDetail;
+import com.korit.pawsmarket.domain.orderDetail.entity.repository.OrderDetailRepository;
+import com.korit.pawsmarket.domain.orderDetail.enums.ShippingStatus;
 import com.korit.pawsmarket.domain.order.entity.Order;
 import com.korit.pawsmarket.domain.product.entity.Product;
 import lombok.RequiredArgsConstructor;
@@ -46,3 +46,4 @@ public class OrderDetailFacade {
         return orderDetailRepository.save(orderDetail);
     }
 }
+//OrderDetailFacade에서 최종 가격을 계산해서 DB에 저장

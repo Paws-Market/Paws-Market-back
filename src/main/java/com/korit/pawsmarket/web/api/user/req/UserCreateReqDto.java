@@ -46,7 +46,7 @@ public record UserCreateReqDto(
         @Schema(example = "https://aws.s3.com/default-profile.png")
         String profileImg,
 
-        @Schema(example = "1") // 클라이언트가 Role의 ID만 보냄
+        @Schema(example = "USER")
         @NotNull(message = "권한 정보는 필수 입력입니다.")
         Roletype roletype,
 
